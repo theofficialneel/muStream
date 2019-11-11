@@ -5,18 +5,20 @@ const MusicSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  artist: {
-    type: String,
+  artist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
-  },
+  }],
   album: {
-    type: String,
-    required: false
-  },
-  genre: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Album',
     required: true
   },
+  genre: [{
+    type: String,
+    enum: ['Pop', 'Hip-hop', 'Folk', 'Country', 'Indie', 'Classical', 'EDM', 'Rock', 'Metal', 'Jazz', 'Funk', 'Disco', 'Reggae', 'Rap', 'Alt Rock']
+  }],
   filename: {
     type: String,
     required: true
