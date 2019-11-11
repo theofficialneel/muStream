@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-// Load Album model
-const Album = require('../models/Album');
+// Load Playlist model
+const Playlist = require('../models/Playlist');
 const { ensureAuthenticated } = require('../config/auth');
 
 // Upload Page
-router.get('/create', ensureAuthenticated, (req, res) => res.render('createalbum'));
+router.get('/create', ensureAuthenticated, (req, res) => res.render('createplaylist'));
 
 router.post('/create', (req, res) => {
   const { title } = req.body;
@@ -18,11 +18,11 @@ router.post('/create', (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render('createalbum', {
+    res.render('', {
       errors, title
     });
   } else {
-    // create album
+    // create playlist
   }
 
 });

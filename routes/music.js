@@ -7,11 +7,7 @@ const Music = require('../models/Music');
 const { ensureAuthenticated } = require('../config/auth');
 
 // Upload Page
-router.get('/upload', ensureAuthenticated, (req, res) =>
-  res.render('upload', {
-    user: req.user
-  })
-);
+router.get('/upload', ensureAuthenticated, (req, res) => res.render('upload'));
 
 router.post('/upload', (req, res) => {
   const { title, artist, album, genre } = req.body;
@@ -31,5 +27,7 @@ router.post('/upload', (req, res) => {
   }
 
 });
+
+// query methods
 
 module.exports = router;

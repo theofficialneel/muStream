@@ -17,7 +17,7 @@ const PlaylistSchema = new mongoose.Schema({
   playlist_art: {
     type: String,
     required: false
-  }
+  },
   last_updated: {
     type: Date,
     default: Date.now
