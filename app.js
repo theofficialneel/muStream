@@ -29,7 +29,8 @@ app.set('view engine', 'ejs');
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static(path.join(__dirname, 'public')));
+app.use("/media", express.static(path.join(__dirname, 'media')));
 
 // Express session
 app.use(

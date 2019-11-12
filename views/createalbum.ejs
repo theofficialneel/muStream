@@ -9,7 +9,7 @@
         Create Album
       </h1>
       <% include ./partials/messages %>
-      <form action="/album/create" method="POST">
+      <form action="/album/create" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title">Title</label>
           <input
@@ -21,7 +21,16 @@
             value="<%= typeof title != 'undefined' ? title : '' %>"
           />
         </div>
-        <div>ADD UPLOAD PIC</div>
+        <div class="form-group">
+          <div>
+              <span>Album Art</span>
+              <input
+                  type="file"
+                  name="art"
+                  class="form-control-file"
+              />
+          </div>
+        </div>
         <button type="submit" class="btn btn-primary btn-block">
           Create
         </button>
