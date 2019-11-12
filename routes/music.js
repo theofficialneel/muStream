@@ -22,8 +22,8 @@ connection.once('open', () => {
 const storage = new GridFsStorage({
 	url: dbURI,
 	file: (req, file) => {
-		const {title, artist, album, genre} = req.body;
-		const filename = title + '_' + album + '_' + artist;
+		const {title, album, genre} = req.body;
+		const filename = title + '_' + album + '_' + Date.now();
 		console.log(filename);
 		return {filename: filename, bucketName: 'test'};
 	}
@@ -37,10 +37,10 @@ router.get('/upload', ensureAuthenticated, (req, res) => res.render('upload'));
 router.post('/upload', (req, res) => {
 
 	upload.single('track')(req, res, (err) => {
-		const {title, artist, album, genre} = req.body;
+		const {title, album, genre} = req.body;
 		let errors = [];
 
-		if (!title || !artist || !genre) {
+		if (!title || !album || !genre) {
 			errors.push({ msg: 'Please enter all fields' });
 		}
 
@@ -51,7 +51,7 @@ router.post('/upload', (req, res) => {
 
 		if (errors.length > 0) {
 			res.render('upload', {	
-			errors, title, artist, album, genre
+			errors, title, album, genre
 			});
 		}
 		else{
