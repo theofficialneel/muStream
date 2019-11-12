@@ -32,7 +32,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
             Album
             .findById(song.album)
             .then(album => {
-                new_song.album_art = album.album_art;
+                new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
                 new_songs.push(new_song);
             })
             .catch(err => {
