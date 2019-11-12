@@ -1,6 +1,3 @@
 node_modules
-media/album/*
-media/music/*
-media/playlist/*
-media/users/*
+media
 config/password.txt

@@ -18,38 +18,42 @@
             />
           </div>
           <div class="form-group">
-            <label for="artist">Artist</label>
-            <input
-              type="artist"
-              id="artist"
-              name="artist"
-              class="form-control"
-              placeholder="Enter Artist's Name"
-              value="<%= typeof artist != 'undefined' ? artist : '' %>"
-            />
-          </div>
-          <div class="form-group">
             <label for="album">Album</label>
             <input
               type="album"
               id="album"
               name="album"
               class="form-control"
-              placeholder="Enter the song's Album"
+              placeholder="Replace with album search"
               value="<%= typeof album != 'undefined' ? album : '' %>"
             />
           </div>
           <div class="form-group">
-            <label for="genre">Genre</label>
-            <input
+            <label for="genre">Select genre : </label>
+            <select 
+              class="form-control"
               type="genre"
               id="genre"
-              name="genre"
-              class="form-control"
-              placeholder="Enter Genre"
-              value="<%= typeof genre != 'undefined' ? genre : '' %>"
-            />
+              value="<%= typeof genre != 'undefined' ? genre : 'Pop' %>"
+            >
+              <option>Pop</option>
+              <option>Hip-hop</option>
+              <option>Folk</option>
+              <option>Country</option>
+              <option>Indie</option>
+              <option>Classical</option>
+              <option>EDM</option>
+              <option>Rock</option>
+              <option>Metal</option>
+              <option>Jazz</option>
+              <option>Funk</option>
+              <option>Disco</option>
+              <option>Reggae</option>
+              <option>Rap</option>
+              <option>Alt Rock</option>
+            </select>
           </div>
+<<<<<<< HEAD
           <div class="form-group">
             <div>
                 <span>Music File</span>
@@ -59,6 +63,9 @@
                     class="form-control-file"
                 />
             </div>
+=======
+          <div>ADD UPLOAD SONG IN MP3 FORMAT</div>
+>>>>>>> master
           <button type="submit" class="btn btn-primary btn-block">
             Upload
           </button>
