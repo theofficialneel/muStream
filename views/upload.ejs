@@ -5,7 +5,7 @@
           Music Upload
         </h1>
         <% include ./partials/messages %>
-        <form action="/music/upload" method="POST">
+        <form action="/music/upload" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <label for="title">Title</label>
             <input
@@ -32,6 +32,7 @@
             <label for="genre">Select genre : </label>
             <select 
               class="form-control"
+              name="genre"
               type="genre"
               id="genre"
               value="<%= typeof genre != 'undefined' ? genre : 'Pop' %>"
@@ -53,7 +54,15 @@
               <option>Alt Rock</option>
             </select>
           </div>
-          <div>ADD UPLOAD SONG IN MP3 FORMAT</div>
+          <div class="form-group">
+            <div>
+                <span>Music File</span>
+                <input
+                    type="file"
+                    name="track"
+                    class="form-control-file"
+                />
+            </div>
           <button type="submit" class="btn btn-primary btn-block">
             Upload
           </button>
