@@ -33,6 +33,7 @@ const upload = multer({storage: storage})
 // Upload Page
 router.get('/upload', ensureAuthenticated, (req, res) => 
   res.render('upload', {
+    user: req.user,
     subtitle: "Upload Music"
   }));
 

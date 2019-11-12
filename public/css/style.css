@@ -1,3 +1,108 @@
+body {
+  width: 100vw;
+}
+.main {
+  margin: 0;
+  width: 100vw;
+}
+
+/*Left Menu CSS*/
+.nowplaying {
+  /*background: linear-gradient(to bottom left, #fff 0%, #eb6864 100%);*/
+  /*background: #e44944;*/
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #2b2b2b;
+}
+
+.heading-big {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.image-big {
+  text-align: center;
+}
+
+#thumbnail-big {
+  width: 90%;
+  height: 40%;
+  border-radius: 5px;
+}
+
+.options-big {
+  text-align: center;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.options-button-big {
+  display: inline;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.song-details-big {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.song-details-big > p {
+  margin: 0;
+  padding: 0;
+}
+
+#artist-name-big, #album-name-big {
+  font-size: 0.85rem;
+  color: #2b2b2b;
+}
+
+/*Right Menu CSS*/
+.right-menu {
+  padding: 0;
+}
+.useroptions {
+  /*background: linear-gradient(to bottom left, #fff 0%, #eb6864 100%);*/
+  color: #eee;
+  background: #eb6864;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #2b2b2b;
+}
+
+#profile-pic {
+  width: 30%;
+  height: 5%;
+  border-radius: 100%;
+}
+
+.profile-name {
+  text-align: center;
+}
+
+.profile-name > h5 > span {
+  float: right;
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+.userbuttons {
+  list-style: none;
+  margin: auto;
+  width: 70%;
+  cursor: pointer;
+}
+
+/*Footer CSS*/
 audio {
   filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
   width: 50%;

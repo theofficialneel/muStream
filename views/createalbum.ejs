@@ -1,4 +1,8 @@
-<div class="row mt-5">
+<%-contentFor('leftmenu') %>
+    <% include ./partials/leftmenu %>
+
+<%- contentFor('body') %>
+<div class="row">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
       <h1 class="text-center mb-3">
@@ -25,6 +29,8 @@
     </div>
   </div>
 </div>
-  
+<%- contentFor('rightmenu') %>
+    <% include ./partials/rightmenu %>
+
 <%- contentFor('footer') %>
-<% include ./partials/footer %>
+    <% include ./partials/footer %>

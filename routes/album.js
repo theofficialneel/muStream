@@ -9,6 +9,7 @@ const { ensureAuthenticated } = require('../config/auth');
 // Upload Page
 router.get('/create', ensureAuthenticated, (req, res) => 
   res.render('createalbum', {
+    user: req.user,
     subtitle: "Create Album"
   }));
 
