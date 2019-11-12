@@ -31,15 +31,7 @@ const storage = new GridFsStorage({
 const upload = multer({storage: storage})
 
 // Upload Page
-<<<<<<< HEAD
-router.get('/upload', ensureAuthenticated, (req, res) =>
-  res.render('upload', {
-	user: req.user
-  })
-);
-=======
 router.get('/upload', ensureAuthenticated, (req, res) => res.render('upload'));
->>>>>>> master
 
 
 router.post('/upload', (req, res) => {
