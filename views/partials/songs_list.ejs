@@ -1,0 +1,19 @@
+<% songs.forEach(function(song) { %>
+    <div class="row">
+        <img class="thumbnail-small" src="<%=song.image%>">
+        <span class="songname"><%=song.title%></span>
+        <ul class="iconoptions">
+            <li class="button-big play" id="<%=song._id%>" data="<%=song.filename%>" onclick="playSong(this)">
+                <i class="material-icons">play_circle_outline</i>
+            </li>
+            <li class="button-big addQueue" onclick="add_to_playlist(<%=song._id%>)">
+                <i class="material-icons">playlist_add</i>
+            </li>
+                <% if (song.is_favorite) { %>
+                    <li class="button-big fav" onclick="remove_from_favourites(<%=song._id%>)"><i class="material-icons">favorite</i></li>
+                <% } else { %>
+                    <li class="button-big fav" onclick="add_to_favourites(<%=song._id%>)"><i class="material-icons">favorite_border</i></li>
+            <% } %> 
+        </ul>
+    </div>
+<% }); %>

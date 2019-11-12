@@ -5,7 +5,17 @@
                 <img id="profile-pic" src="/assets/Napster.jpeg" />
             </div>
             <div class="profile-name">
-                <h5><%= user.name %><span><i class="fas fa-ellipsis-v"></i></span></h5>
+                <div class="dropdown show">
+                    <span class="user-dropdown dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <h5><%= user.name %></h5>
+                    </span>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/album/create">Create New Album</a>
+                        <a class="dropdown-item" href="/playlist/create">Create New Playlist</a>
+                        <a class="dropdown-item" href="/music/upload">Upload New Music</a>
+                        <a class="dropdown-item" href="/users/logout">Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
         <hr/>

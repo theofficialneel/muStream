@@ -79,6 +79,10 @@ ul {
   border-left: 1px solid #2b2b2b;
 }
 
+.ellipsis-menu {
+  cursor: pointer;
+}
+
 #profile-pic {
   width: 30%;
   height: 5%;
@@ -89,10 +93,10 @@ ul {
   text-align: center;
 }
 
-.profile-name > h5 > span {
-  float: right;
-  padding-right: 1em;
-  padding-left: 1em;
+.user-dropdown {
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
 }
 
 .userbuttons {
@@ -102,6 +106,46 @@ ul {
   cursor: pointer;
 }
 
+/* Body CSS */
+.body-content {
+  margin: 0;
+}
+
+.main-content {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centered-content {
+  width: 90%;
+  height: 90%;
+}
+
+.thumbnail-small {
+  width: 20px;
+  height: 20px;
+}
+.songname {
+  width: fit-content;
+  padding: 5px;
+  margin-left: 20px;
+}
+.songoptions {
+  float: right;
+  margin-top:50%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.songoptions > .userbuttons > button {
+  font-size: 1rem;
+}
+.iconoptions {
+  float: right;
+}
 /*Footer CSS*/
 audio {
   filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
