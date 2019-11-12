@@ -7,7 +7,10 @@ const Album = require('../models/Album');
 const { ensureAuthenticated } = require('../config/auth');
 
 // Upload Page
-router.get('/create', ensureAuthenticated, (req, res) => res.render('createalbum'));
+router.get('/create', ensureAuthenticated, (req, res) => 
+  res.render('createalbum', {
+    subtitle: "Create Album"
+  }));
 
 router.post('/create', (req, res) => {
   const { title } = req.body;

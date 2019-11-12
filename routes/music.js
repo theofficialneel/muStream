@@ -31,7 +31,10 @@ const storage = new GridFsStorage({
 const upload = multer({storage: storage})
 
 // Upload Page
-router.get('/upload', ensureAuthenticated, (req, res) => res.render('upload'));
+router.get('/upload', ensureAuthenticated, (req, res) => 
+  res.render('upload', {
+    subtitle: "Upload Music"
+  }));
 
 
 router.post('/upload', (req, res) => {

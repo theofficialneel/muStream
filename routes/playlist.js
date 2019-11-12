@@ -7,7 +7,10 @@ const Playlist = require('../models/Playlist');
 const { ensureAuthenticated } = require('../config/auth');
 
 // Upload Page
-router.get('/create', ensureAuthenticated, (req, res) => res.render('createplaylist'));
+router.get('/create', ensureAuthenticated, (req, res) => 
+  res.render('createplaylist', {
+    subtitle: "Create Playlist"
+}));
 
 router.post('/create', (req, res) => {
   const { title } = req.body;

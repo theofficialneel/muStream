@@ -1,4 +1,7 @@
-<h1 class="mt-4">Dashboard</h1>
+
+<%- contentFor('body') %>
+
+<h1 class="mt-4"><%= dashboard_title %></h1>
 <p class="lead mb-3">Welcome <%= user.name %></p>
 
 <a href="/album/create" class="btn btn-primary">Create New Album</a>
@@ -7,3 +10,6 @@
 
 
 <a href="/users/logout" class="btn btn-tertiary">Logout</a>
+
+<%- contentFor('footer') %>
+<% include ./partials/footer %>

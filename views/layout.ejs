@@ -9,10 +9,25 @@
       rel="stylesheet"
       href="https://bootswatch.com/4/journal/bootstrap.min.css"
     />
-    <title>Node.js & Passport Login App</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>Music Streaming App | <%= subtitle %></title>
   </head>
   <body>
-    <div class="container"><%- body %></div>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="/dashboard">
+        <h4>
+          <i width="30" height="30" class="fab fa-napster"></i>
+          Music Streaming App
+        </h4>
+      </a>
+    </nav>
+    
+    <div class="container">
+        <%- defineContent('leftmenu') %>
+        <%- body %>
+        <%- defineContent('rightmenu') %>
+        <%- defineContent('footer') %>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
