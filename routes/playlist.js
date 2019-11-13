@@ -161,6 +161,7 @@ router.get('/list/:creator_id', ensureAuthenticated, (req, res) => {
         user: req.user,
         subtitle:  "Home",
         dashboard_title: `Playlists by ${creator.name}`,
+        card_type: "playlist",
         card_list: card_list
       })
     });

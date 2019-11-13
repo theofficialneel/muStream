@@ -156,6 +156,7 @@ router.get('/list/:artist_id', ensureAuthenticated, (req, res) => {
         user: req.user,
         subtitle:  "Home",
         dashboard_title: `Albums by ${artist.name}`,
+        card_type: "album",
         card_list: card_list
       })
     });

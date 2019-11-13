@@ -1,0 +1,21 @@
+<div class="row">
+    <% card_list.forEach(function(card) { %>
+        <div class="col-4">
+        <div class="card">
+            <a href="/<%=card_type%>/songs/<%=card._id%>">
+                <% if (card_type == "album") { %>
+                    <img src="/<%=card.album_art%>" class="card-img-top" alt="...">
+                <% } else { %>
+                    <img src="/<%=card.playlist_art%>" class="card-img-top" alt="...">
+                <% } %> 
+            <div class="card-body">
+                <h5 class="card-title"><%=card.title%></h5>
+                <div class="card-footer">
+                    <small class="text-muted">Created <%=card.uploaded_date%></small>
+                </div>
+            </div>
+            </a>
+        </div>
+        </div>
+    <% }); %>
+</div>
