@@ -62,7 +62,7 @@ router.post('/upload', (req, res) => {
 		else{
 			console.log('Upload Sucessful');
 			return Album
-				.findOneAndUpdate({title: album})
+				.findOne({title: album})
 				.exec()
 				.then(albumRetrived =>{
 					if(albumRetrived){
@@ -134,6 +134,19 @@ router.post('/upload', (req, res) => {
 	
         
 });
+
+router.post('/play/:songid', (req, res) => {
+	gfs.files.findOne({filename: req.params.songid}, (err, file) =>{
+		if(!file || file.length == 0){
+			return res.status(404).json({
+				err: 'No file exists'
+			});
+		}
+
+		const readStream = gfs.createReadStream(file.filename);
+		readStream.pipe(res);
+	})
+})
 
 // query methods
 

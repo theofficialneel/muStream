@@ -18,7 +18,7 @@ router.get('/', forwardAuthenticated, (req, res) => {
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
     console.log(req.user);
-    let new_songs = [];
+    let new_songs = ["qwerty"];
     return Music
     .find({artist: mongoose.Types.ObjectId(req.user._id)})
     .exec()
@@ -26,11 +26,13 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
         console.log("Music query")
         console.log(result);
         result.forEach(song => {
-            let new_song = song;
+            // console.log(new_songs)
+            // let new_song = song;
+            console.log(typeof(song));
             if(req.user.favorites.includes(song._id)) {
-                new_song.is_favorite = true;
+                song.is_favorite = true;
             } else {
-                new_song.is_favorite = false;
+                song.is_favorite = false;
             }
 
             Album
@@ -38,18 +40,21 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
             .then(album => {
                 console.log('Album')
                 console.log(album);
-                new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
-                new_songs.push(new_song);
+                song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+                // new_songs.push(new_song);
             })
             .catch(err => {
                 console.log(err)
             });
         });
+        console.log("New result")
+        console.log(result);
+
         return res.render('songs_dashboard', {
             user: req.user,
             subtitle: "Home",
             dashboard_title: "My Songs",
-            songs: new_songs
+            songs: result
         })
     })
     .catch(err => {

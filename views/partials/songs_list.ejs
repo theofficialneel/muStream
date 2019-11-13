@@ -1,8 +1,6 @@
-<div><%=songs%>Hello</div>
 <% songs.forEach(function(song) { %>
-    <div class="row" album="<%=song.album%>" artist="<%=song.artist[0]%>">
-    <div><%=song%></div>
-        <img class="thumbnail-small" src="<%=song.image%>">
+    <div class="row" album="<%=song.album%>" artist="<%=song.artist%>">
+        <img class="thumbnail-small" src="<%=song.album_art%>">
         <span class="songname"><%=song.title%></span>
         <ul class="iconoptions">
             <li class="button-big play" id="<%=song._id%>" data="<%=song.filename%>" onclick="playSong(this)">
