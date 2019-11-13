@@ -5,6 +5,7 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const mongoose = require("mongoose");
 const User = require('../models/User');
 const Music = require('../models/Music');
+const Album = require('../models/Album');``
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => {
@@ -22,6 +23,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
     .find({artist: mongoose.Types.ObjectId(req.user._id)})
     .exec()
     .then(result => {
+        console.log("Music query")
         console.log(result);
         result.forEach(song => {
             let new_song = song;
@@ -34,6 +36,8 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
             Album
             .findById(song.album)
             .then(album => {
+                console.log('Album')
+                console.log(album);
                 new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
                 new_songs.push(new_song);
             })

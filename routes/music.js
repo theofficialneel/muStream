@@ -7,6 +7,7 @@ const Grid = require('gridfs-stream');
 const dbURI = require('../config/keys').mongoURI;
 // Load Music model
 const Music = require('../models/Music');
+const Album = require('../models/Album');
 const { ensureAuthenticated } = require('../config/auth');
 
 //DB connection
@@ -59,9 +60,75 @@ router.post('/upload', (req, res) => {
 			});
 		}
 		else{
-
 			console.log('Upload Sucessful');
-			res.redirect('/dashboard');
+			return Album
+				.findOneAndUpdate({title: album})
+				.exec()
+				.then(albumRetrived =>{
+					if(albumRetrived){
+						console.log("Album");
+						console.log(albumRetrived);
+						console.log("FileUploaded");
+						console.log(req.file.filename);
+						let songID = new mongoose.Types.ObjectId;
+						albumRetrived.songs.push(songID)
+						albumRetrived.save()
+							.then(result =>{
+								console.log(result);
+								console.log("Album updated");
+								req.flash(
+								'success_msg',
+								'Album updated successfully'
+							)
+							.catch(err => {
+								console.log(err);
+								req.flash(
+									'error_msg',
+									'Error in Album Upload'
+								);
+								return res.redirect('/dashboard');
+							});
+						});
+						const song = new Music({
+							_id: songID,
+							title: title,
+							artist: req.user._id,
+							album: albumRetrived._id,
+							genre: genre,
+							filename: req.file.filename,
+						});
+						
+						song.save()
+							.then(result => {
+								console.log("Song save success");
+								req.flash(
+									'success_msg',
+									'Song uploaded successfully'
+								);
+								return res.redirect('/dashboard');
+							})
+							.catch(err =>{
+								console.log(err);
+								errors.push({msg: 'Song Model Upload Failed'});
+								req.flash(
+									'error_msg',
+									'Song upload failed'
+								);
+								return res.redirect('/dashboard');
+							});
+					}
+					else{
+						//generate new album
+						errors = [];
+						errors.push({msg: 'Album not created. Please Create Album'});
+						return res.render('createalbum', {
+							errors, title,
+							user: req.user,
+							subtitle: "Create Album"
+						  });
+
+					}
+				});
 		}
 	});
 	
