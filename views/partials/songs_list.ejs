@@ -1,5 +1,7 @@
+<div><%=songs%>Hello</div>
 <% songs.forEach(function(song) { %>
     <div class="row" album="<%=song.album%>" artist="<%=song.artist[0]%>">
+    <div><%=song%></div>
         <img class="thumbnail-small" src="<%=song.image%>">
         <span class="songname"><%=song.title%></span>
         <ul class="iconoptions">
