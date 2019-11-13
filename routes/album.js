@@ -139,4 +139,33 @@ router.get('/songs/:id', ensureAuthenticated, (req, res) => {
   });
 });
 
+// Get list of albums
+router.get('/list/:artist_id', ensureAuthenticated, (req, res) => {
+  return Album
+  .find({artist: mongoose.Types.ObjectId(artist_id)})
+  .exec()
+  .then(albums => {
+    let card_list = albums;
+    return User
+    .findById(artist_id)
+    .exec()
+    .then(artist => {
+      return res.render('card_dashboard', {
+        user: req.user,
+        subtitle:  "Home"
+        dashboard_title: `Playlists by ${artist.name}`,
+        card_list: card_list
+      })
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    req.flash(
+      'error_msg',
+      'Playlists could not be retrieved'
+    );
+    return res.redirect('/dashboard');
+  });
+})
+
 module.exports = router;
