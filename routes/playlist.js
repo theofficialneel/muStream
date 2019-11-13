@@ -39,8 +39,12 @@ const upload = multer({
 });
 
 
-// Load Playlist model
+// Load models
 const Playlist = require('../models/Playlist');
+const Album = require('../models/Album');
+const Music = require('../models/Music');
+const User = require('../models/User');
+
 const { ensureAuthenticated } = require('../config/auth');
 
 // Upload Page

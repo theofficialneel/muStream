@@ -1,0 +1,19 @@
+<%-contentFor('leftmenu') %>
+    <% include ./partials/leftmenu %>
+
+<%- contentFor('body') %>
+    <div class="main-content">
+        <div class="centered-content">
+            <% include ./partials/search %>
+            <% include ./partials/messages %>
+            <h3 class="mt-4"><%= dashboard_title %></h3>
+            <div class="list-display" id ="cards-display">
+            </div>
+        </div>
+    </div>
+
+<%- contentFor('rightmenu') %>
+    <% include ./partials/rightmenu %>
+
+<%- contentFor('footer') %>
+    <% include ./partials/footer %>
