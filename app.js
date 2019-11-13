@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+var bodyParser = require("body-parser");
+const logger = require("morgan");
 
 const app = express();
 
@@ -28,7 +30,11 @@ app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
 // Express body parser
-app.use(express.urlencoded({ extended: true }));
+app.use(logger("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Public and Media folder
 app.use("/public", express.static(path.join(__dirname, 'public')));
 app.use("/media", express.static(path.join(__dirname, 'media')));
 

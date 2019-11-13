@@ -8,6 +8,7 @@ const Music = require('../models/Music');
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => {
+    console.log(req.user)
     res.render('welcome', {
         subtitle: "Home"
     });

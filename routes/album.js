@@ -4,23 +4,43 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const path = require('path');
 const multer = require('multer');
+const fs = require('fs-extra');
+const mongoose = require('mongoose');
 
-// Multer Storage
+
 const storage = multer.diskStorage({
-  destination: './media/album/',
-  filename: (req, file, cb) => {
-    cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  destination: function(req, file, cb) {
+    let path = `./media/album/`;
+    fs.mkdirsSync(path);
+    cb(null, path);
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
   }
 });
 
-// Init upload 
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    //accept a file
+    cb(null, true);
+  } else {
+    //reject a file
+    cb(null, false);
+  }
+};
+
 const upload = multer({
-  storage: storage
-}).single('art');
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024
+  },
+  fileFilter: fileFilter
+});
 
 // Load Album model
 const Album = require('../models/Album');
 const { ensureAuthenticated } = require('../config/auth');
+
 
 // Upload Page
 router.get('/create', ensureAuthenticated, (req, res) => 
@@ -29,14 +49,14 @@ router.get('/create', ensureAuthenticated, (req, res) =>
     subtitle: "Create Album"
   }));
 
-router.post('/create', (req, res) => {
-  
+router.post('/create', ensureAuthenticated, upload.single("art"), (req, res) => {
+
   let errors = [];
 
   const { title } = req.body;
-
   if (!title) {
     errors.push({ msg: 'Please enter all fields' });
+    fs.remove(req.file.path);
     return res.render('createalbum', {
       errors, title,
       user: req.user,
@@ -44,26 +64,33 @@ router.post('/create', (req, res) => {
     });
   }
 
-  upload(req, res, (err) => {
-    if(err) {
-      errors.push({ msg: 'Please enter all fields' });
-    }
+  const album = new Album({
+    _id: new mongoose.Types.ObjectId(),
+    artist: req.user._id,
+    album_art: req.file.path,
+    title: req.body.title
+  });
 
-    if (errors.length > 0) {
-      res.render('createalbum', {
-        errors, title,
-        user: req.user,
-        subtitle: "Create Album"
-      });
-    } else {
-      console.log(req.file)
+  return album
+    .save()
+    .then(result => {
       req.flash(
         'success_msg',
         'Album created successfully'
       );
-      res.redirect('/album/createalbum');
-    }
-  })
+      return res.redirect('/dashboard');
+    }).catch(err => {
+      console.log(err);
+      errors.push({ msg: err });
+      if (errors.length > 0) {
+        console.log(errors)
+        return res.render('createalbum', {
+          errors, title,
+          user: req.user,
+          subtitle: "Create Album"
+        });
+      }
+    })
 });
 
 // query methods
