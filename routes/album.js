@@ -95,4 +95,44 @@ router.post('/create', ensureAuthenticated, upload.single("art"), (req, res) => 
 
 // query methods
 
+// Get songs from single album
+router.get('/songs/:id', ensureAuthenticated, (req, res) => {
+  let new_songs = []
+  return Album
+  .findById(id)
+  .exec()
+  .then(album => {
+    album.songs.forEach(song_id => {
+      Music
+      .findById(song_id)
+      .then(song => {
+        let new_song = song;
+        if(req.user.favorites.includes(song._id)) {
+          new_song.is_favorite = true;
+        } else {
+          new_song.is_favorite = false;
+        }
+        
+        new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+        new_songs.push(new_song);
+      })
+    })
+
+    return res.render('songs_dashboard', {
+      user: req.user,
+      subtitle: "Home",
+      dashboard_title: album.title,
+      songs: new_songs
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    req.flash(
+      'error_msg',
+      'Album could not be retrieved'
+    );
+    return res.redirect('/dashboard');
+  });
+});
+
 module.exports = router;
