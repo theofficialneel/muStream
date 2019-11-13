@@ -100,28 +100,25 @@ router.post('/create', ensureAuthenticated, upload.single("art"), (req, res) => 
 // query methods
 
 // Get songs from single album
-router.get('/songs/:id', ensureAuthenticated, (req, res) => {
+router.get('/songs/:id', ensureAuthenticated, async(req, res) => {
   let new_songs = [];
   let albumId = req.params.id;
-  return Album
-  .findById(albumId)
-  .exec()
-  .then(album => {
-    album.songs.forEach(song_id => {
-      Music
-      .findById(song_id)
-      .then(song => {
-        let new_song = song;
-        if(req.user.favorites.includes(song._id)) {
-          new_song.is_favorite = true;
-        } else {
-          new_song.is_favorite = false;
-        }
-        
-        new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
-        new_songs.push(new_song);
-      })
-    })
+  try{
+    let album = await Album.findById(albumId);
+    for(i in album.songs) {
+      let song_id = album.songs[i];
+      let song = await Music.findById(song_id)
+      let new_song = song.toObject();
+      if(req.user.favorites.includes(song._id)) {
+        new_song.is_favorite = true;
+      } else {
+        new_song.is_favorite = false;
+      }
+      
+      let album = await Album.findById(song.album); 
+      new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+      new_songs.push(new_song);
+    }
 
     return res.render('songs_dashboard', {
       user: req.user,
@@ -129,15 +126,13 @@ router.get('/songs/:id', ensureAuthenticated, (req, res) => {
       dashboard_title: album.title,
       songs: new_songs
     })
-  })
-  .catch(err => {
-    console.log(err);
+  } catch (err) {
     req.flash(
-      'error_msg',
-      'Album could not be retrieved'
-    );
+        'error_msg',
+        'Album could not be retrieved'
+      );
     return res.redirect('/dashboard');
-  });
+  }
 });
 
 // Get list of albums

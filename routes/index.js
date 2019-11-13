@@ -16,55 +16,76 @@ router.get('/', forwardAuthenticated, (req, res) => {
 });
 
 // Dashboard
-router.get('/dashboard', ensureAuthenticated, (req, res) => {
-    console.log(req.user);
-    let new_songs = ["qwerty"];
-    return Music
-    .find({artist: mongoose.Types.ObjectId(req.user._id)})
-    .exec()
-    .then(result => {
-        console.log("Music query")
-        console.log(result);
-        result.forEach(song => {
-            // console.log(new_songs)
-            // let new_song = song;
-            console.log(typeof(song));
+router.get('/dashboard', ensureAuthenticated, async(req, res) => {
+    let new_songs = [];
+    try{
+        let result = await Music.find({artist: mongoose.Types.ObjectId(req.user._id)});
+        for (i in result) {
+            let song = result[i];
+            let new_song = song.toObject();
             if(req.user.favorites.includes(song._id)) {
-                song.is_favorite = true;
+                new_song.is_favorite = true;
             } else {
-                song.is_favorite = false;
+                new_song.is_favorite = false;
             }
 
-            Album
-            .findById(song.album)
-            .then(album => {
-                console.log('Album')
-                console.log(album);
-                song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
-                // new_songs.push(new_song);
-            })
-            .catch(err => {
-                console.log(err)
-            });
-        });
-        console.log("New result")
-        console.log(result);
-
+            let album = await Album.findById(song.album);
+            album = album.toObject();
+            new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+            new_songs.push(new_song);
+        }
+        
+        console.log(new_songs);
         return res.render('songs_dashboard', {
             user: req.user,
             subtitle: "Home",
             dashboard_title: "My Songs",
-            songs: result
-        })
-    })
-    .catch(err => {
-        console.log(err);
+            songs: new_songs
+        });
+    } catch (err) {
         req.flash(
-          'error_msg',
-          'Songs could not be retrieved'
-        );
+            'error_msg',
+            'Songs could not be retrieved'
+          );
         return res.redirect('/dashboard');
-    });
+    }
 });
 
+router.post('/search', ensureAuthenticated, async(req, res) => {
+    let new_songs = [];
+    let search_string = req.body.song_search;
+    var regexp = new RegExp("^"+ search_string);
+    console.log(search_string)
+    try{
+        let result = await Music.find({title: regexp});
+        for (i in result) {
+            let song = result[i];
+            let new_song = song.toObject();
+            if(req.user.favorites.includes(song._id)) {
+                new_song.is_favorite = true;
+            } else {
+                new_song.is_favorite = false;
+            }
+
+            let album = await Album.findById(song.album);
+            album = album.toObject();
+            new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+            new_songs.push(new_song);
+        }
+        
+        console.log(new_songs);
+        return res.render('songs_dashboard', {
+            user: req.user,
+            subtitle: "Home",
+            dashboard_title: "My Songs",
+            songs: new_songs
+        });
+    } catch (err) {
+        req.flash(
+            'error_msg',
+            'Songs could not be searched'
+          );
+        return res.redirect('/dashboard');
+    }
+});
 module.exports = router;
