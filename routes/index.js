@@ -18,8 +18,9 @@ router.get('/', forwardAuthenticated, (req, res) => {
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
     console.log(req.user);
     let new_songs = [];
-    Music
+    return Music
     .find({artist: mongoose.Types.ObjectId(req.user._id)})
+    .exec()
     .then(result => {
         console.log(result);
         result.forEach(song => {
@@ -40,7 +41,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
                 console.log(err)
             });
         });
-        res.render('songs_dashboard', {
+        return res.render('songs_dashboard', {
             user: req.user,
             subtitle: "Home",
             dashboard_title: "My Songs",
@@ -49,6 +50,11 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
     })
     .catch(err => {
         console.log(err);
+        req.flash(
+          'error_msg',
+          'Songs could not be retrieved'
+        );
+        return res.redirect('/dashboard');
     });
 });
 
