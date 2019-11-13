@@ -101,9 +101,10 @@ router.post('/create', ensureAuthenticated, upload.single("art"), (req, res) => 
 
 // Get songs from single album
 router.get('/songs/:id', ensureAuthenticated, (req, res) => {
-  let new_songs = []
+  let new_songs = [];
+  let albumId = req.params.id;
   return Album
-  .findById(id)
+  .findById(albumId)
   .exec()
   .then(album => {
     album.songs.forEach(song_id => {
@@ -141,19 +142,20 @@ router.get('/songs/:id', ensureAuthenticated, (req, res) => {
 
 // Get list of albums
 router.get('/list/:artist_id', ensureAuthenticated, (req, res) => {
+  let artistId = req.params.artist_id;
   return Album
-  .find({artist: mongoose.Types.ObjectId(artist_id)})
+  .find({artist: mongoose.Types.ObjectId(artistId)})
   .exec()
   .then(albums => {
     let card_list = albums;
     return User
-    .findById(artist_id)
+    .findById(artistId)
     .exec()
     .then(artist => {
       return res.render('card_dashboard', {
         user: req.user,
-        subtitle:  "Home"
-        dashboard_title: `Playlists by ${artist.name}`,
+        subtitle:  "Home",
+        dashboard_title: `Albums by ${artist.name}`,
         card_list: card_list
       })
     });

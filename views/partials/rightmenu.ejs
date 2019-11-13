@@ -21,9 +21,16 @@
         <hr/>
         <div class="song-options">
             <ul class="song-options-list">
-                <li class="userbuttons"><button class="btn btn-default" id = "allSongs-button"><i class="material-icons">library_music</i>&nbsp;&nbsp;All Songs</button></li>
-                <li class="userbuttons"><button class="btn btn-default" id = "playList-button"><i class="material-icons">playlist_play</i>&nbsp;&nbsp;Playlist</button></li>
-                <li class="userbuttons"><button class="btn btn-default" id = "favorites-button"><i class="material-icons">favorite</i>&nbsp;&nbsp;Favourites</button></li>
+                <li class="userbuttons"><button class="btn btn-default" id = "allSongs-button" 
+                onclick="window.location.href = '/album/list/' + '<%= user.id %>';">
+                    <i class="material-icons">library_music</i>&nbsp;&nbsp;Albums</button>
+                </li>
+                <li class="userbuttons"><button class="btn btn-default" id = "playList-button" onclick="window.location.href = '/playlist/list/' + '<%= user.id %>';">
+                    <i class="material-icons">playlist_play</i>&nbsp;&nbsp;Playlists</button>
+                </li>
+                <li class="userbuttons"><button class="btn btn-default" id = "favorites-button">
+                    <i class="material-icons">favorite</i>&nbsp;&nbsp;Favourites</button>
+                </li>
             </ul>
         </div>
     </div>
