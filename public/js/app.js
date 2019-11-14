@@ -16,10 +16,12 @@ function playSong(element) {
     document.getElementById("now-playing-favorite").setAttribute("onclick", `add_to_favorite(${song_id})`);
   }
 
-  let song_id = element.id;
+  
 
   document.getElementById("now-playing-playlist").setAttribute("onclick", `add_to_playlist(${song_id})`);
   document.getElementById("audio-source").src = element.getAttribute("data");
   document.getElementById("play-controls").load();
   document.getElementById("play-controls").play();
+
+  var song_id = element.id;
 }

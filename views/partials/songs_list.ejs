@@ -3,7 +3,7 @@
         <img class="thumbnail-small" src="<%=song.album_art%>">
         <span class="songname"><%=song.title%></span>
         <ul class="iconoptions">
-            <li class="button-big play" id="<%=song._id%>" data="<%=song.filename%>" onclick="playSong(this)">
+            <li class="button-big play" id="<%=song._id%>" data="/music/play/<%=song.filename%>" onclick="playSong(this)">
                 <i class="material-icons">play_circle_outline</i>
             </li>
             <li class="button-big addQueue" onclick="add_to_playlist(<%=song._id%>)">

@@ -131,9 +131,9 @@ router.post('/upload', (req, res) => {
 });
 
 //Play Media
-router.get('/play/:songid', (req, res) => {
+router.get('/play/:filename', (req, res) => {
 	var gfs = Grid(mongoose.connection.db);
-	gfs.collection('test').find({_id: req.params.songid}, (err, file) =>{
+	gfs.collection('test').find({filename: req.params.filename}, (err, file) =>{
 		if(!file || file.length == 0){
 			return res.status(404).json({
 				err: 'No file exists'
@@ -141,7 +141,7 @@ router.get('/play/:songid', (req, res) => {
 		}
 
 		const readStream = gfs.createReadStream({
-							_id: req.params.songid,
+							filename: req.params.filename,
 							root: 'test'
 						});
 		readStream.pipe(res);
