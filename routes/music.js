@@ -11,13 +11,8 @@ const Album = require('../models/Album');
 const { ensureAuthenticated } = require('../config/auth');
 
 //DB connection
-const connection = mongoose.createConnection(dbURI);
-let gfs;
+Grid.mongo = mongoose.mongo;
 
-connection.once('open', () => {
-	gfs = Grid(connection.db, mongoose.mongo);
-	gfs.collection('tracks');
-});
 
 //Multer Setup
 const storage = new GridFsStorage({
@@ -135,19 +130,22 @@ router.post('/upload', (req, res) => {
         
 });
 
-router.post('/play/:songid', (req, res) => {
-	gfs.files.findOne({filename: req.params.songid}, (err, file) =>{
+//Play Media
+router.get('/play/:filename', (req, res) => {
+	var gfs = Grid(mongoose.connection.db);
+	gfs.collection('test').find({filename: req.params.filename}, (err, file) =>{
 		if(!file || file.length == 0){
 			return res.status(404).json({
 				err: 'No file exists'
 			});
 		}
 
-		const readStream = gfs.createReadStream(file.filename);
+		const readStream = gfs.createReadStream({
+							filename: req.params.filename,
+							root: 'test'
+						});
 		readStream.pipe(res);
 	})
 })
-
-// query methods
 
 module.exports = router;
