@@ -172,11 +172,34 @@ router.get('/add/:song_id/:playlist', ensureAuthenticated, (req, res) => {
   let song_id = req.params.song_id;
   let playlist = req.params.playlist;
 
-  req.flash(
-    'success_msg',
-    'Song added to playlist '+ playlist
-  );
-  return res.redirect('/dashboard');
+  if(!playlist) {
+    req.flash(
+      'error_msg',
+      "Cannot add to null playlist"
+    );
+    return res.redirect('/dashboard'); 
+  }
+  return Playlist
+  .update(
+   { title: playlist},
+   { $push: { songs: song_id } },
+   { new: true })
+  .then(playlist => {
+      console.log(playlist);
+      req.flash(
+        'success_msg',
+        'Song added to playlist'
+      );
+      return res.redirect('/dashboard');
+  })
+  .catch(err => {
+    console.log(err);
+    req.flash(
+      'error_msg',
+      "Unable to add to playlist"
+    );
+    return res.redirect('/dashboard');
+  });
 });
 
 module.exports = router;

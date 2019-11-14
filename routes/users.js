@@ -2,9 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-// Load User model
+
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
+const mongoose = require("mongoose");
 const User = require('../models/User');
-const { forwardAuthenticated } = require('../config/auth');
+const Music = require('../models/Music');
+const Album = require('../models/Album');``
+
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => 
@@ -98,12 +103,73 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
-router.get('/favorites', (req, res) => {
-  
+router.get('/favorites', ensureAuthenticated, async(req, res) => {
+  let new_songs = [];
+  try{
+    let favorite_songs = req.user.favorites;
+    for(i in favorite_songs) {
+      let song_id = favorite_songs[i];
+      let song = await Music.findById(song_id)
+      let new_song = song.toObject();
+      if(req.user.favorites.includes(song._id)) {
+        new_song.is_favorite = true;
+      } else {
+        new_song.is_favorite = false;
+      }
+      
+      let album = await Album.findById(song.album); 
+      new_song.album_art = (album.album_art) ? album.album_art : "/assets/Napster.jpeg";
+      new_songs.push(new_song);
+    }
+
+    return res.render('songs_dashboard', {
+      user: req.user,
+      subtitle: "Home",
+      dashboard_title: "Favorites",
+      songs: new_songs
+    })
+  } catch (err) {
+    req.flash(
+        'error_msg',
+        'Favorites could not be retrieved'
+      );
+    return res.redirect('/dashboard');
+  }
 });
 
-router.get('/favorites/add/:id', (req, res) => {
-  
+router.get('/favorites/add/:id', ensureAuthenticated, (req, res) => {
+  let song_id = req.params.id;
+
+  if(!song_id) {
+    req.flash(
+      'error_msg',
+      "Cannot add null song"
+    );
+    return res.redirect('/dashboard'); 
+  }
+  let user_id = req.user._id;
+  console.log(user_id);
+  return User
+  .update(
+   { _id: user_id},
+   { $push: { favourites: song_id } },
+   { new: true })
+  .then(user => {
+      console.log(user);
+      req.flash(
+        'success_msg',
+        'Song added to favorites'
+      );
+      return res.redirect('/dashboard');
+  })
+  .catch(err => {
+    console.log(err);
+    req.flash(
+      'error_msg',
+      "Unable to add to favorites"
+    );
+    return res.redirect('/dashboard');
+  });
 });
 
 module.exports = router;

@@ -35,7 +35,6 @@ router.get('/dashboard', ensureAuthenticated, async(req, res) => {
             new_songs.push(new_song);
         }
         
-        console.log(new_songs);
         return res.render('songs_dashboard', {
             user: req.user,
             subtitle: "Home",
