@@ -1,12 +1,11 @@
 <% songs.forEach(function(song) { %>
-    <div class="row" album="<%=song.album%>" artist="<%=song.artist%>">
-        <img class="thumbnail-small" src="<%=song.album_art%>">
-        <span class="songname"><%=song.title%></span>
+    <div class="row song_card" album="<%=song.album%>" artist="<%=song.artist%>">
+        <img class="thumbnail-small" width="100" height="100" src="/<%=song.album_art%>">
         <ul class="iconoptions">
-            <li class="button-big play" id="<%=song._id%>" data="/music/play/<%=song.filename%>" onclick="playSong(this)">
+            <li class="button-big play" id="<%=song._id%>" data="/music/play/<%=song.filename%>" onclick="playSong(this, '<%=song.title%>')">
                 <i class="material-icons">play_circle_outline</i>
             </li>
-            <li class="button-big addQueue" onclick="add_to_playlist(<%=song._id%>)">
+            <li class="button-big addQueue" onclick="add_to_playlist('<%=song._id%>')">
                 <i class="material-icons">playlist_add</i>
             </li>
                 <% if (song.is_favorite) { %>
@@ -15,5 +14,6 @@
                     <li class="button-big fav" onclick="add_to_favourites(<%=song._id%>)"><i class="material-icons">favorite_border</i></li>
             <% } %> 
         </ul>
+        <div class="songname"><%=song.title%></div>
     </div>
 <% }); %>

@@ -105,8 +105,9 @@ router.get('/songs/:id', ensureAuthenticated, async(req, res) => {
   let albumId = req.params.id;
   try{
     let album = await Album.findById(albumId);
-    for(i in album.songs) {
-      let song_id = album.songs[i];
+    let album_songs = album.songs;
+    for(i in album_songs) {
+      let song_id = album_songs[i];
       let song = await Music.findById(song_id)
       let new_song = song.toObject();
       if(req.user.favorites.includes(song._id)) {

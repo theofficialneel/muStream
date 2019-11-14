@@ -98,4 +98,12 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
+router.get('/favorites', (req, res) => {
+  
+});
+
+router.get('/favorites/add/:id', (req, res) => {
+  
+});
+
 module.exports = router;

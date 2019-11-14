@@ -166,6 +166,17 @@ router.get('/list/:creator_id', ensureAuthenticated, (req, res) => {
     );
     return res.redirect('/dashboard');
   });
-})
+});
+
+router.get('/add/:song_id/:playlist', ensureAuthenticated, (req, res) => {
+  let song_id = req.params.song_id;
+  let playlist = req.params.playlist;
+
+  req.flash(
+    'success_msg',
+    'Song added to playlist '+ playlist
+  );
+  return res.redirect('/dashboard');
+});
 
 module.exports = router;
