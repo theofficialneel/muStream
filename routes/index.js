@@ -19,7 +19,7 @@ router.get('/', forwardAuthenticated, (req, res) => {
 router.get('/dashboard', ensureAuthenticated, async(req, res) => {
     let new_songs = [];
     try{
-        let result = await Music.find({artist: req.user._id});
+        let result = await Music.find({});
         for (i in result) {
             let song = result[i];
             let new_song = song.toObject();

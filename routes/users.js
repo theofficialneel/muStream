@@ -148,11 +148,13 @@ router.get('/favorites/add/:id', ensureAuthenticated, (req, res) => {
     return res.redirect('/dashboard'); 
   }
   let user_id = req.user._id;
+  let updated_favourites = req.user.favorites;
+  updated_favourites.push(song_id);
   console.log(user_id);
   return User
-  .update(
+  .findOneAndUpdate(
    { _id: user_id},
-   { $push: { favourites: song_id } },
+   { favorites: updated_favourites },
    { new: true })
   .then(user => {
       console.log(user);
